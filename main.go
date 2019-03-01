@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.oschina.net/jscode/go-package-plantuml/codeanalysis"
+	"github.com/qquunn/go-package-plantuml/codeanalysis"
 	log "github.com/Sirupsen/logrus"
 	"fmt"
 	"github.com/jessevdk/go-flags"
