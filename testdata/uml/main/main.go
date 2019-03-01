@@ -1,9 +1,9 @@
 package main
 
 import (
-	uml "git.oschina.net/jscode/go-package-plantuml/testdata/uml"
-	sub "git.oschina.net/jscode/go-package-plantuml/testdata/uml/sub"
-	sub2 "git.oschina.net/jscode/go-package-plantuml/testdata/uml/sub2"
+	uml "github.com/qquunn/go-package-plantuml/testdata/uml"
+	sub "github.com/qquunn/go-package-plantuml/testdata/uml/sub"
+	sub2 "github.com/qquunn/go-package-plantuml/testdata/uml/sub2"
 	"fmt"
 )
 

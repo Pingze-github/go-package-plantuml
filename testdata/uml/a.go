@@ -2,7 +2,7 @@ package a
 
 import (
 	"sync"
-	"git.oschina.net/jscode/go-package-plantuml/testdata/uml/sub2"
+	"github.com/qquunn/go-package-plantuml/testdata/uml/sub2"
 )
 
 type IA interface  {

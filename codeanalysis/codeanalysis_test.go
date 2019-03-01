@@ -10,7 +10,7 @@ import (
 
 
 var gopathDir = os.Getenv("GOPATH")
-var testdataPath = gopathDir + "/src/git.oschina.net/jscode/go-package-plantuml/testdata"
+var testdataPath = gopathDir + "/src/github.com/qquunn/go-package-plantuml/testdata"
 
 func Test_findGoPackageNameInDirPath(t *testing.T) {
 	assert.Equal(t, "b", findGoPackageNameInDirPath(testdataPath + "/b"))
@@ -34,7 +34,7 @@ func Test_InterfacesSign(t *testing.T) {
 	interfaceMeta := analysisTool1.interfaceMetas[0]
 	assert.Equal(t, "IA", interfaceMeta.Name)
 	assert.Equal(t, testdataPath + "/a/a.go", interfaceMeta.FilePath)
-	assert.Equal(t, "git.oschina.net/jscode/go-package-plantuml/testdata/a", interfaceMeta.PackagePath, "error in interfaceMeta")
+	assert.Equal(t, "github.com/qquunn/go-package-plantuml/testdata/a", interfaceMeta.PackagePath, "error in interfaceMeta")
 
 	fmt.Println(interfaceMeta.MethodSigns)
 	assert.Equal(t, 4, len(interfaceMeta.MethodSigns))
@@ -48,7 +48,7 @@ func Test_InterfacesSign(t *testing.T) {
 	structmeta := analysisTool1.structMetas[0]
 	assert.Equal(t, "SA", structmeta.Name)
 	assert.Equal(t, testdataPath + "/a/a.go", structmeta.FilePath)
-	assert.Equal(t, "git.oschina.net/jscode/go-package-plantuml/testdata/a", structmeta.PackagePath, "error in structmeta")
+	assert.Equal(t, "github.com/qquunn/go-package-plantuml/testdata/a", structmeta.PackagePath, "error in structmeta")
 
 	fmt.Println(structmeta.MethodSigns)
 	assert.Equal(t, 4, len(structmeta.MethodSigns))
@@ -85,7 +85,7 @@ func Test_complex(t *testing.T) {
 	assert.Equal(t, 1, len(analysisTool1.interfaceMetas))
 	interfaceMeta := analysisTool1.interfaceMetas[0]
 	assert.Equal(t, "IA", interfaceMeta.Name)
-	assert.Equal(t, "Add(git.oschina.net/jscode/go-package-plantuml/testdata/b/sub.SubSA,sync.Locker,git.oschina.net/jscode/go-package-plantuml/testdata/b.B,git.oschina.net/jscode/go-package-plantuml/testdata/b/suba.SubSa1)", interfaceMeta.MethodSigns[0])
+	assert.Equal(t, "Add(github.com/qquunn/go-package-plantuml/testdata/b/sub.SubSA,sync.Locker,github.com/qquunn/go-package-plantuml/testdata/b.B,github.com/qquunn/go-package-plantuml/testdata/b/suba.SubSa1)", interfaceMeta.MethodSigns[0])
 
 	assert.Equal(t, 4, len(analysisTool1.structMetas))
 	structMetas := analysisTool1.findInterfaceImpls(interfaceMeta)
