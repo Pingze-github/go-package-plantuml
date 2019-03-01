@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.oschina.net/jscode/go-package-plantuml/testdata/a"
+	"github.com/Pingze-github/go-package-plantuml/testdata/a"
 )
 
 func m1(a1 a.IA) {

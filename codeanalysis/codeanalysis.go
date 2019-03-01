@@ -4,6 +4,7 @@ import (
 	"go/parser"
 	"path/filepath"
 	"os"
+	"regexp"
 	"strings"
 	"go/token"
 	"reflect"
@@ -19,6 +20,7 @@ type Config struct {
 	CodeDir    string
 	GopathDir  string
 	VendorDir  string
+	OutputFile string
 	IgnoreDirs []string
 }
 
@@ -131,7 +133,7 @@ func packagePathToUML(packagePath string) (string) {
 type baseInfo struct {
 	// go文件路径
 	FilePath    string
-	// 包路径, 例如 git.oschina.net/jscode/list-interface
+	// 包路径, 例如 github.com/Pingze-github/list-interface
 	PackagePath string
 }
 
@@ -174,7 +176,7 @@ func (this *structMeta) implInterfaceUML(interfaceMeta1 *interfaceMeta) string {
 type importMeta struct {
 	// 例如 main
 	Alias string
-	// 例如 git.oschina.net/jscode/list-interface
+	// 例如 github.com/Pingze-github/list-interface
 	Path  string
 }
 
@@ -187,9 +189,9 @@ type DependencyRelation struct {
 type analysisTool struct {
 	config                      Config
 
-	// 当前解析的go文件, 例如/appdev/go-demo/src/git.oschina.net/jscode/list-interface/a.go
+	// 当前解析的go文件, 例如/appdev/go-demo/src/github.com/Pingze-github/list-interface/a.go
 	currentFile                 string
-	// 当前解析的go文件,所在包路径, 例如git.oschina.net/jscode/list-interface
+	// 当前解析的go文件,所在包路径, 例如github.com/Pingze-github/list-interface
 	currentPackagePath          string
 	// 当前解析的go文件,引入的其他包
 	currentFileImports          []*importMeta
@@ -200,7 +202,7 @@ type analysisTool struct {
 	structMetas                 []*structMeta
 	// 所有的别名定义
 	typeAliasMetas              []*typeAliasMeta
-	// package path与package name的映射关系,例如git.oschina.net/jscode/list-interface 对应的pakcage name为 main
+	// package path与package name的映射关系,例如github.com/Pingze-github/list-interface 对应的pakcage name为 main
 	packagePathPackageNameCache map[string]string
 	// struct之间的依赖关系
 	dependencyRelations         []*DependencyRelation
@@ -211,12 +213,12 @@ func (this *analysisTool)analysis(config Config) {
 	this.config = config
 
 	if this.config.CodeDir == "" || ! PathExists(this.config.CodeDir) {
-		log.Errorf("找不到代码目录%s\n", this.config.CodeDir)
+		log.Errorf("Cannot find code dir %s\n", this.config.CodeDir)
 		return
 	}
 
 	if this.config.GopathDir == "" || ! PathExists(this.config.GopathDir) {
-		log.Errorf("找不到GOPATH目录%s\n", this.config.GopathDir)
+		log.Errorf("Cannot find GOAPTH dir %s\n", this.config.GopathDir)
 		return
 	}
 
@@ -230,7 +232,7 @@ func (this *analysisTool)analysis(config Config) {
 			if config.IgnoreDirs != nil && HasPrefixInSomeElement(path, config.IgnoreDirs) {
 				// ignore
 			} else {
-				log.Info("解析 " + path)
+				log.Info("Parsing " + path)
 				this.visitTypeInFile(path)
 			}
 		}
@@ -246,7 +248,7 @@ func (this *analysisTool)analysis(config Config) {
 			if config.IgnoreDirs != nil && HasPrefixInSomeElement(path, config.IgnoreDirs) {
 				// ignore
 			} else {
-				log.Info("解析 " + path)
+				log.Info("Parsing " + path)
 				this.visitFuncInFile(path)
 			}
 		}
@@ -265,7 +267,7 @@ func (this *analysisTool) initFile(path string) {
 	this.currentPackagePath = this.filepathToPackagePath(path)
 
 	if this.currentPackagePath == "" {
-		log.Errorf("packagePath为空,currentFile=%s\n", this.currentFile)
+		log.Errorf("packagePath is invalid, currentFile=%s\n", this.currentFile)
 	}
 
 }
@@ -347,6 +349,7 @@ func (this *analysisTool) visitTypeSpec(typeSpec *ast.TypeSpec) {
 
 func (this*analysisTool) filepathToPackagePath(filepath string) string {
 
+	filepath = FormatSlash(filepath)
 	filepath = path.Dir(filepath)
 
 	if this.config.VendorDir != "" {
@@ -366,7 +369,7 @@ func (this*analysisTool) filepathToPackagePath(filepath string) string {
 		}
 	}
 
-	log.Errorf("无法确认包路径名, filepath=%s\n", filepath)
+	log.Errorf("Cannot confirm package file path, filepath=%s\n", filepath)
 
 	return ""
 
@@ -1092,7 +1095,7 @@ func (this *analysisTool) findPackagePathByAlias(alias string, structName string
 		}
 
 		currentFileImportsjson, _ := json.Marshal(this.currentFileImports)
-		log.Warnf("找不到包的全路径，包名为%s，type name=%s, 在%s文件, matchedImportMetas=%d, currentFileImports=%s", alias, structName, this.currentFile, len(matchedImportMetas), currentFileImportsjson)
+		log.Warnf("Cannot find package full path. Package=%s，type name=%s, file=%s, matchedImportMetas=%d, currentFileImports=%s", alias, structName, this.currentFile, len(matchedImportMetas), currentFileImportsjson)
 
 		return alias
 
@@ -1137,7 +1140,7 @@ func (this *analysisTool) findPackagePathByAlias(alias string, structName string
 		}
 
 		currentFileImportsjson, _ := json.Marshal(this.currentFileImports)
-		log.Warnf("找不到包的全路径，包名为%s，type name=%s, 在%s文件, matchedImportMetas=%d, currentFileImports=%s", alias, structName, this.currentFile, len(matchedImportMetas), currentFileImportsjson)
+		log.Warnf("Cannot find package full path. Package=%s，type name=%s, file=%s, matchedImportMetas=%d, currentFileImports=%s", alias, structName, this.currentFile, len(matchedImportMetas), currentFileImportsjson)
 
 		return alias
 
@@ -1168,7 +1171,7 @@ func (this *analysisTool) interfaceBodyToString(interfaceType *ast.InterfaceType
 func (this *analysisTool) content(t ast.Expr) string {
 	bytes, err := ioutil.ReadFile(this.currentFile)
 	if err != nil {
-		log.Error("读取文件", this.currentFile, "失败", err)
+		log.Error("Read file", this.currentFile, "fail", err)
 		return ""
 	}
 
@@ -1223,7 +1226,11 @@ func (this*analysisTool) OutputToFile(logfile string) {
 
 	uml := this.UML()
 	ioutil.WriteFile(logfile, []byte(uml), 0666)
-	log.Infof("数据已保存到%s\n", logfile)
+	log.Infof("The UML file saved to %s\n", logfile)
 
 }
 
+func FormatSlash(pathstr string) string {
+	reg, _ := regexp.Compile("\\\\")
+	return reg.ReplaceAllString(pathstr, "/")
+}
