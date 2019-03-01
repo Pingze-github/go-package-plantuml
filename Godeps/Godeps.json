@@ -1,5 +1,5 @@
 {
-	"ImportPath": "git.oschina.net/jscode/go-package-plantuml",
+	"ImportPath": "github.com/Pingze-github/go-package-plantuml",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v79",
 	"Packages": [
