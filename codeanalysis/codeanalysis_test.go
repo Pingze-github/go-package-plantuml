@@ -111,17 +111,17 @@ func Test_uml(t *testing.T) {
 
 	assert.Equal(t, 3, len(analysisTool1.interfaceMetas))
 	interfaceMeta := analysisTool1.interfaceMetas[0]
-	assert.Equal(t, "namespace git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml {\n interface IA  {\n  Add()\n} \n}", interfaceMeta.UML)
+	assert.Equal(t, "namespace github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml {\n interface IA  {\n  Add()\n} \n}", interfaceMeta.UML)
 
 	assert.Equal(t, 3, len(analysisTool1.structMetas))
 	structMeta1 := analysisTool1.structMetas[0]
-	assert.Equal(t, "namespace git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml {\n class SA {\n  a int\n  b sync.Mutex\n  c sub2.Sub2A\n  m map[string]sub2.Sub2A\n} \n}", structMeta1.UML)
+	assert.Equal(t, "namespace github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml {\n class SA {\n  a int\n  b sync.Mutex\n  c sub2.Sub2A\n  m map[string]sub2.Sub2A\n} \n}", structMeta1.UML)
 
 	interfaceImpls := analysisTool1.findInterfaceImpls(interfaceMeta)
 	assert.Equal(t, 2, len(interfaceImpls))
-	assert.Equal(t, "git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml.IA <|- git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml.SA\n", interfaceImpls[0].implInterfaceUML(interfaceMeta))
+	assert.Equal(t, "github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml.IA <|- github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml.SA\n", interfaceImpls[0].implInterfaceUML(interfaceMeta))
 
 	assert.Equal(t, 2, len(analysisTool1.dependencyRelations))
-	assert.Equal(t, "git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml.SA ---> git.oschina.net\\\\jscode\\\\go_package_plantuml\\\\testdata\\\\uml\\\\sub2.Sub2A : c", analysisTool1.dependencyRelations[0].uml)
+	assert.Equal(t, "github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml.SA ---> github.com\\\\Pingze-github\\\\go_package_plantuml\\\\testdata\\\\uml\\\\sub2.Sub2A : c", analysisTool1.dependencyRelations[0].uml)
 
 }
