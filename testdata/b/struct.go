@@ -1,9 +1,9 @@
 package b
 
 import (
-	sub2 "github.com/qquunn/go-package-plantuml/testdata/b/sub"
+	sub2 "github.com/Pingze-github/go-package-plantuml/testdata/b/sub"
 	a "sync"
-	"github.com/qquunn/go-package-plantuml/testdata/b/suba"
+	"github.com/Pingze-github/go-package-plantuml/testdata/b/suba"
 )
 
 type SB struct {

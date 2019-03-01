@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/qquunn/go-package-plantuml/codeanalysis"
+	"github.com/Pingze-github/go-package-plantuml/codeanalysis"
 	log "github.com/Sirupsen/logrus"
 	"fmt"
 	"io/ioutil"

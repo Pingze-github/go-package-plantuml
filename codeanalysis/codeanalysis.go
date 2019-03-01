@@ -131,7 +131,7 @@ func packagePathToUML(packagePath string) (string) {
 type baseInfo struct {
 	// go文件路径
 	FilePath    string
-	// 包路径, 例如 github.com/qquunn/list-interface
+	// 包路径, 例如 github.com/Pingze-github/list-interface
 	PackagePath string
 }
 
@@ -174,7 +174,7 @@ func (this *structMeta) implInterfaceUML(interfaceMeta1 *interfaceMeta) string {
 type importMeta struct {
 	// 例如 main
 	Alias string
-	// 例如 github.com/qquunn/list-interface
+	// 例如 github.com/Pingze-github/list-interface
 	Path  string
 }
 
@@ -187,9 +187,9 @@ type DependencyRelation struct {
 type analysisTool struct {
 	config                      Config
 
-	// 当前解析的go文件, 例如/appdev/go-demo/src/github.com/qquunn/list-interface/a.go
+	// 当前解析的go文件, 例如/appdev/go-demo/src/github.com/Pingze-github/list-interface/a.go
 	currentFile                 string
-	// 当前解析的go文件,所在包路径, 例如github.com/qquunn/list-interface
+	// 当前解析的go文件,所在包路径, 例如github.com/Pingze-github/list-interface
 	currentPackagePath          string
 	// 当前解析的go文件,引入的其他包
 	currentFileImports          []*importMeta
@@ -200,7 +200,7 @@ type analysisTool struct {
 	structMetas                 []*structMeta
 	// 所有的别名定义
 	typeAliasMetas              []*typeAliasMeta
-	// package path与package name的映射关系,例如github.com/qquunn/list-interface 对应的pakcage name为 main
+	// package path与package name的映射关系,例如github.com/Pingze-github/list-interface 对应的pakcage name为 main
 	packagePathPackageNameCache map[string]string
 	// struct之间的依赖关系
 	dependencyRelations         []*DependencyRelation

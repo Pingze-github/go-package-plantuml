@@ -2,7 +2,7 @@ package a
 
 import (
 	"sync"
-	"github.com/qquunn/go-package-plantuml/testdata/uml/sub2"
+	"github.com/Pingze-github/go-package-plantuml/testdata/uml/sub2"
 )
 
 type IA interface  {
